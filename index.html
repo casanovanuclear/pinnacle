@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6fffa 100%);
+            min-height: 100vh;
+        }
+        
+        .header-bg {
+            background: linear-gradient(120deg, #0f4c75 0%, #3282b8 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .feature-badge {
+            background: linear-gradient(45deg, #00b4d8, #0077b6);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin: 2px;
+        }
+        
+        .loan-progress {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .loan-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00b4d8, #0077b6);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .stats-card {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #00b4d8, #0077b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .loan-status-approved {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        .loan-status-pending {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        .loan-status-rejected {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="header-bg text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-hand-holding-usd text-2xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold">LoanHub</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#apply" class="hover:text-blue-200 transition">Apply</a>
+                    <a href="#loans" class="hover:text-blue-200 transition">My Loans</a>
+                    <a href="#calculator" class="hover:text-blue-200 transition">Calculator</a>
+                    <a href="#contact" class="hover:text-blue-200 transition">Contact</a>
+                </nav>
+            </div>
+            
+            <div class="max-w-4xl">
+                <h2 class="text-5xl font-bold mb-6 leading-tight">
+                    Fast & Secure <span class="gradient-text">Loan Management</span> Platform
+                </h2>
+                <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+                    Get instant loans with competitive rates, flexible repayment terms, and seamless digital experience
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-xl font-semibold transition transform hover:scale-105">
+                        <i class="fas fa-rocket mr-2"></i>Apply Now
+                    </button>
+                    <button class="border-2 border-white text-white hover:bg-white hover:text-blue-800 px-8 py-3 rounded-xl font-semibold transition">
+                        <i class="fas fa-calculator mr-2"></i>Loan Calculator
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="stats-card text-center">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">KES 50M+</div>
+                    <div class="text-gray-600">Loans Disbursed</div>
+                </div>
+                <div class="stats-card text-center">
+                    <div class="text-3xl font-bold text-green-600 mb-2">10,000+</div>
+                    <div class="text-gray-600">Happy Customers</div>
+                </div>
+                <div class="stats-card text-center">
+                    <div class="text-3xl font-bold text-purple-600 mb-2">24/7</div>
+                    <div class="text-gray-600">Customer Support</div>
+                </div>
+                <div class="stats-card text-center">
+                    <div class="text-3xl font-bold text-orange-600 mb-2">98%</div>
+                    <div class="text-gray-600">Approval Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loan Calculator Section -->
+    <section id="calculator" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Loan Calculator</h2>
+                <p class="text-xl text-gray-600">Calculate your loan amount, interest, and monthly payments</p>
+            </div>
+            
+            <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+                <div class="mb-6">
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="text-blue-800 font-semibold"><i class="fas fa-info-circle mr-2"></i> Current Rates:</p>
+                        <p class="text-blue-700">Interest Rate: <span class="font-bold">12%</span> | Processing Fee: <span class="font-bold">2%</span></p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Loan Amount (KES)</label>
+                            <input type="number" id="loanAmount" class="w-full p-3 border border-gray-300 rounded-lg" value="100000">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Loan Term (Months)</label>
+                            <input type="number" id="loanTerm" class="w-full p-3 border border-gray-300 rounded-lg" value="12">
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="calculateLoan()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
+                    Calculate Payment
+                </button>
+                
+                <div id="calculationResult" class="mt-6 p-4 bg-blue-50 rounded-lg hidden">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Monthly Payment</h4>
+                            <p class="text-2xl font-bold text-blue-600" id="monthlyPayment">KES 0.00</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Total Interest</h4>
+                            <p class="text-2xl font-bold text-green-600" id="totalInterest">KES 0.00</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Processing Fee</h4>
+                            <p class="text-xl font-semibold text-gray-700" id="processingFeeAmount">KES 0.00</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Total Repayment</h4>
+                            <p class="text-xl font-semibold text-purple-600" id="totalRepayment">KES 0.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apply for Loan Section -->
+    <section id="apply" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Apply for a Loan</h2>
+                <p class="text-xl text-gray-600">Get approved in minutes with our simple application process</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-gradient-to-br from-blue-50 to-green-50 rounded-2xl p-8 shadow-lg">
+                <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+                    <p class="text-yellow-800 font-semibold"><i class="fas fa-info-circle mr-2"></i> Current Rates:</p>
+                    <p class="text-yellow-700">Interest Rate: <span class="font-bold">12%</span> | Processing Fee: <span class="font-bold">2%</span></p>
+                </div>
+                
+                <form id="loanApplicationForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Full Name</label>
+                            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Phone Number</label>
+                            <input type="tel" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="+254 700 000 000">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Email Address</label>
+                            <input type="email" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">National ID</label>
+                            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="12345678">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Loan Amount (KES)</label>
+                            <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="50000">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Loan Purpose</label>
+                            <select class="w-full p-3 border border-gray-300 rounded-lg">
+                                <option value="">Select Purpose</option>
+                                <option value="business">Business</option>
+                                <option value="education">Education</option>
+                                <option value="agriculture">Agriculture</option>
+                                <option value="personal">Personal</option>
+                                <option value="medical">Medical</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Employment Status</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <label class="flex items-center">
+                                <input type="radio" name="employment" value="employed" class="mr-2">
+                                <span>Employed</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="employment" value="self-employed" class="mr-2">
+                                <span>Self-Employed</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="employment" value="unemployed" class="mr-2">
+                                <span>Unemployed</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Monthly Income (KES)</label>
+                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="50000">
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition transform hover:scale-105">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit Application
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Loans Section -->
+    <section id="loans" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">My Loans</h2>
+                <p class="text-xl text-gray-600">Track your loan applications and repayment status</p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-xl font-bold">Active Loans</h3>
+                    </div>
+                    
+                    <div class="divide-y divide-gray-200">
+                        <!-- Loan 1 -->
+                        <div class="p-6">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-2">
+                                        <h4 class="text-lg font-bold">Personal Loan</h4>
+                                        <span class="loan-status-approved ml-4">Approved</span>
+                                    </div>
+                                    <p class="text-gray-600 mb-2">Loan ID: LOAN-2025-001</p>
+                                    <div class="loan-progress mb-2">
+                                        <div class="loan-progress-bar" style="width: 60%"></div>
+                                    </div>
+                                    <p class="text-sm text-gray-500">60% of repayment completed</p>
+                                </div>
+                                <div class="mt-4 md:mt-0 text-right">
+                                    <p class="text-2xl font-bold text-blue-600">KES 100,000</p>
+                                    <p class="text-gray-600">Monthly: KES 9,200</p>
+                                    <button class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+                                        Make Payment
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Loan 2 -->
+                        <div class="p-6">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-2">
+                                        <h4 class="text-lg font-bold">Business Loan</h4>
+                                        <span class="loan-status-pending ml-4">Pending</span>
+                                    </div>
+                                    <p class="text-gray-600 mb-2">Loan ID: LOAN-2025-002</p>
+                                    <div class="loan-progress mb-2">
+                                        <div class="loan-progress-bar" style="width: 20%"></div>
+                                    </div>
+                                    <p class="text-sm text-gray-500">20% of processing completed</p>
+                                </div>
+                                <div class="mt-4 md:mt-0 text-right">
+                                    <p class="text-2xl font-bold text-blue-600">KES 500,000</p>
+                                    <p class="text-gray-600">Monthly: KES 45,000</p>
+                                    <button class="mt-2 bg-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm cursor-not-allowed">
+                                        Processing
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Loan 3 -->
+                        <div class="p-6">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-2">
+                                        <h4 class="text-lg font-bold">Agriculture Loan</h4>
+                                        <span class="loan-status-rejected ml-4">Rejected</span>
+                                    </div>
+                                    <p class="text-gray-600 mb-2">Loan ID: LOAN-2025-003</p>
+                                    <div class="loan-progress mb-2">
+                                        <div class="loan-progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-sm text-gray-500">Application rejected</p>
+                                </div>
+                                <div class="mt-4 md:mt-0 text-right">
+                                    <p class="text-2xl font-bold text-blue-600">KES 200,000</p>
+                                    <p class="text-gray-600">Monthly: KES 18,000</p>
+                                    <button class="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg text-sm">
+                                        Reapply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Why Choose Our Loan Platform</h2>
+                <p class="text-xl text-gray-600">Experience the difference with our innovative loan management system</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card-hover bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6">
+                    <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-bolt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Instant Approval</h3>
+                    <p class="text-gray-600">Get loan approval decisions in minutes with our automated system and AI-powered risk assessment.</p>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6">
+                    <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Secure & Safe</h3>
+                    <p class="text-gray-600">Bank-level security with encryption and compliance with all financial regulations and data protection laws.</p>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6">
+                    <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-mobile-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Mobile Payments</h3>
+                    <p class="text-gray-600">Seamless integration with M-Pesa and other mobile payment platforms for easy disbursement and repayment.</p>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6">
+                    <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-percentage text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Competitive Rates</h3>
+                    <p class="text-gray-600">Enjoy some of the lowest interest rates in the market with transparent fee structures.</p>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6">
+                    <div class="w-12 h-12 bg-teal-500 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-headset text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">24/7 Support</h3>
+                    <p class="text-gray-600">Round-the-clock customer support via chat, phone, and email to assist you with any queries.</p>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6">
+                    <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-sync-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Flexible Repayment</h3>
+                    <p class="text-gray-600">Choose repayment terms that work best for you with options for early repayment without penalties.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">What Our Customers Say</h2>
+                <p class="text-xl text-gray-600">Real experiences from our satisfied customers</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-gray-500"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold">Jane M.</h4>
+                            <p class="text-gray-600 text-sm">Small Business Owner</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"The loan application process was incredibly smooth. I got my funds within 24 hours and the customer service was excellent. Highly recommend!"</p>
+                    <div class="flex mt-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-gray-500"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold">Michael K.</h4>
+                            <p class="text-gray-600 text-sm">Farmer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"I needed funds for my farming business and got approved immediately. The interest rates were fair and the repayment terms were flexible."</p>
+                    <div class="flex mt-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-gray-500"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold">Sarah T.</h4>
+                            <p class="text-gray-600 text-sm">Student</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"As a student, I needed financial support for my studies. The education loan was exactly what I needed with great terms and easy repayment."</p>
+                    <div class="flex mt-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 header-bg text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-6">Ready to Get Your Loan?</h2>
+            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                Join thousands of satisfied customers who have achieved their financial goals with our loan products.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-semibold transition transform hover:scale-105">
+                    <i class="fas fa-rocket mr-2"></i>Apply Now
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-xl font-semibold transition">
+                    <i class="fas fa-phone mr-2"></i>Contact Us
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">LoanHub</h3>
+                    <p class="text-gray-400">Your trusted partner for fast, secure, and affordable loans. We help you achieve your financial goals.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Personal Loans</a></li>
+                        <li><a href="#" class="hover:text-white transition">Business Loans</a></li>
+                        <li><a href="#" class="hover:text-white transition">Agriculture Loans</a></li>
+                        <li><a href="#" class="hover:text-white transition">Education Loans</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Loan Calculator</a></li>
+                        <li><a href="#" class="hover:text-white transition">Interest Rates</a></li>
+                        <li><a href="#" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2"></i> info@loanhub.com</li>
+                        <li><i class="fas fa-phone mr-2"></i> +254 20 123 4567</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> Nairobi, Kenya</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 LoanHub. All rights reserved. Licensed by the Central Bank of Kenya.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function calculateLoan() {
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+            const loanTerm = parseInt(document.getElementById('loanTerm').value) || 1;
+            
+            // Fixed interest rate and processing fee
+            const interestRate = 12; // 12%
+            const processingFee = 2; // 2%
+            
+            const processingFeeAmount = loanAmount * (processingFee / 100);
+            const principalAmount = loanAmount + processingFeeAmount;
+            const monthlyRate = (interestRate / 100) / 12;
+            
+            // Calculate monthly payment using the formula for annuity
+            const monthlyPayment = principalAmount * 
+                (monthlyRate * Math.pow(1 + monthlyRate, loanTerm)) / 
+                (Math.pow(1 + monthlyRate, loanTerm) - 1);
+            
+            const totalRepayment = monthlyPayment * loanTerm;
+            const totalInterest = totalRepayment - loanAmount;
+            
+            document.getElementById('monthlyPayment').textContent = `KES ${monthlyPayment.toFixed(2)}`;
+            document.getElementById('totalInterest').textContent = `KES ${totalInterest.toFixed(2)}`;
+            document.getElementById('processingFeeAmount').textContent = `KES ${processingFeeAmount.toFixed(2)}`;
+            document.getElementById('totalRepayment').textContent = `KES ${totalRepayment.toFixed(2)}`;
+            
+            document.getElementById('calculationResult').classList.remove('hidden');
+        }
+        
+        // Form submission handler
+        document.getElementById('loanApplicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Loan application submitted successfully! Our team will review your application and contact you shortly.');
+            this.reset();
+        });
+        
+        // Initialize calculator on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateLoan();
+        });
+    </script>
+</body>
+</html>
+
